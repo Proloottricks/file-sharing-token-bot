@@ -24,7 +24,7 @@
     },
     "DATABASE_URL": {
       "description": "Paste your mongo db url https://youtu.be/qFB0cFqiyOM?si=9rfd9AawasXLp_oE",
-      "value": "url"
+      "value": "mongodb+srv://jebesa8591:J1emwnTswYPaq81P@cluster0.cbmpkfm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     },
     "DATABASE_NAME":{
       "description": "Enter your DATABASE_NAME ",
