@@ -32,7 +32,7 @@
     },
     "SHORTLINK_URL":{
       "description": "Enter your SHORTLINK_URL , add yr shortner url . ",
-      "value": "publicearn.com"
+      "value": "publicearn.in"
     },
     "SHORTLINK_API":{
       "description": "Enter yourSHORTLINK_API , add yr shortner api ",
