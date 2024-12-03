@@ -18,8 +18,8 @@ OWNERID = int(environ.get("OWNERID" ,"6376864232"))
 YT = environ.get("YT", "https://t.me/Sanskari_Links69")
 
 # Bot Information
-API_ID = int(environ.get("API_ID", "23929647"))
-API_HASH = environ.get("API_HASH", "")
+API_ID = int(environ.get("API_ID", "26930219"))
+API_HASH = environ.get("API_HASH", "f61fa0adcd48b6bec464b6866fbd2822")
 BOT_TOKEN = environ.get("BOT_TOKEN", "")
 
 PICS = (environ.get('PICS', 'https://graph.org/file/0db18dde98ea3d0d4df0a.jpg')).split() # Bot Start Picture
