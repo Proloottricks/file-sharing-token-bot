@@ -14,8 +14,8 @@ def is_enabled(value, default):
 
 UPDATE = environ.get("SUPPORT", "https://t.me/Sanskari_Links69")
 SUPPORT = environ.get("SUPPORT", "https://t.me/Sanskari_Links69")
-OWNERID = int(environ.get("OWNERID" ,"2016390875"))
-YT = environ.get("YT", "https://youtube.com/@phdlust")
+OWNERID = int(environ.get("OWNERID" ,"6376864232"))
+YT = environ.get("YT", "https://t.me/Sanskari_Links69")
 
 # Bot Information
 API_ID = int(environ.get("API_ID", "23929647"))
