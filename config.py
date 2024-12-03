@@ -6,7 +6,7 @@ from logging.handlers import RotatingFileHandler
 load_dotenv()
 START_PIC = os.environ.get("START_PIC","https://envs.sh/Ype.jpg")
 #Bot token @Botfather
-TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "8011382U515mKPJwdo64")
+TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")
 
 LINK = os.environ.get("LINK","youtube.com/@phdlust")
 CHAT = os.environ.get("CHAT","uofficial")
