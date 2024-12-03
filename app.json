@@ -69,11 +69,12 @@
     },
     "AUTO_DELETE_MSG": {
       "description": "The custom message shown to the user before the file is automatically deleted. You can include a countdown with {time}.",
-      "value": "This file will be automatically deleted in {time} minutes. Please ensure you have saved any necessary content before this time."
+      "value": "This Media Will Be Deleted In {time} minutes 
+(Due To Copyright Issues")
     },
     "AUTO_DEL_SUCCESS_MSG": {
       "description": "The custom message shown to the user once the file is successfully deleted.",
-      "value": "Your file has been successfully deleted. Thank you for using our service. ✅"
+      "value": "Your file has been successfully deleted ✅"
     }
   },
   "buildpacks": [
