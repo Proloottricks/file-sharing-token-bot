@@ -8,12 +8,12 @@ START_PIC = os.environ.get("START_PIC","")
 #Bot token @Botfather
 TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")
 
-LINK = os.environ.get("LINK","")
-CHAT = os.environ.get("CHAT","")
-CHANNEL = os.environ.get("CHANNEL","")
+LINK = os.environ.get("LINK","https://t.me/Sanskari_Links69")
+CHAT = os.environ.get("CHAT","Sanskari_Links69")
+CHANNEL = os.environ.get("CHANNEL","Sanskari_Links69")
 
 # Auto delete time in seconds.
-AUTO_DELETE_TIME = int(os.getenv("AUTO_DELETE_TIME", "0"))
+AUTO_DELETE_TIME = int(os.getenv("AUTO_DELETE_TIME", "1200"))
 AUTO_DELETE_MSG = os.environ.get("AUTO_DELETE_MSG", "This file will be automatically deleted in {time} seconds. Please ensure you have saved any necessary content before this time.")
 AUTO_DEL_SUCCESS_MSG = os.environ.get("AUTO_DEL_SUCCESS_MSG", "Your file has been successfully deleted. Thank you for using our service. ✅")
 
