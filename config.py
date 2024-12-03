@@ -41,8 +41,8 @@ DB_URI = os.environ.get("DATABASE_URL", "mongodb+srv://suntoderlauren:YWxCOyTUne
 
 
 
-SHORTLINK_URL = os.environ.get("SHORTLINK_URL", "inshorturl.com")
-SHORTLINK_API = os.environ.get("SHORTLINK_API", "9f943360c339cec4fed66d9d5cbaa0c2b3d41f81")
+SHORTLINK_URL = os.environ.get("SHORTLINK_URL", "http://publicearn.com")
+SHORTLINK_API = os.environ.get("SHORTLINK_API", "9d4cb5b6c71aea002dabb768c4f82ac48953e4fb")
 VERIFY_EXPIRE = int(os.environ.get('VERIFY_EXPIRE', 86400)) # Add time in seconds
 IS_VERIFY = os.environ.get("IS_VERIFY", "True")
 TUT_VID = os.environ.get("TUT_VID", "https://t.me/+PZfHvzjSiZc4OGE1") # shareus ka tut_vid he 
