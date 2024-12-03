@@ -13,8 +13,8 @@ CHAT = os.environ.get("CHAT","Sanskari_Links69")
 CHANNEL = os.environ.get("CHANNEL","Sanskari_Links69")
 
 # Auto delete time in minutes.
-AUTO_DELETE_TIME = int(os.getenv("AUTO_DELETE_TIME", "20"))
-AUTO_DELETE_MSG = os.environ.get("AUTO_DELETE_MSG", "This file will be automatically deleted in {time} seconds. Please ensure you have saved any necessary content before this time.")
+AUTO_DELETE_TIME = int(os.getenv("AUTO_DELETE_TIME", "1200"))
+AUTO_DELETE_MSG = os.environ.get("AUTO_DELETE_MSG", "This file will be automatically deleted in 20 minutes(Due to Copyright Issues).")
 AUTO_DEL_SUCCESS_MSG = os.environ.get("AUTO_DEL_SUCCESS_MSG", "Your file has been successfully deleted ✅")
 
 #Your API ID & API HASH from my.telegram.org [https://youtu.be/gZQJ-yTMkEo?si=H4NlUUgjsIc5btzH]
