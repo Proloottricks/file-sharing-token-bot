@@ -4,13 +4,13 @@ from dotenv import load_dotenv
 from logging.handlers import RotatingFileHandler
 
 load_dotenv()
-START_PIC = os.environ.get("START_PIC","https://envs.sh/Ype.jpg")
+START_PIC = os.environ.get("START_PIC","")
 #Bot token @Botfather
 TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")
 
-LINK = os.environ.get("LINK","youtube.com/@phdlust")
-CHAT = os.environ.get("CHAT","uofficial")
-CHANNEL = os.environ.get("CHANNEL","ultroidxteam")
+LINK = os.environ.get("LINK","")
+CHAT = os.environ.get("CHAT","")
+CHANNEL = os.environ.get("CHANNEL","")
 
 # Auto delete time in seconds.
 AUTO_DELETE_TIME = int(os.getenv("AUTO_DELETE_TIME", "0"))
