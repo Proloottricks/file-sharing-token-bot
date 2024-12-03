@@ -23,7 +23,7 @@
     },
     "DATABASE_URL": {
       "description": "Paste your mongo db url",
-      "value": "mongodb+srv://suntoderlauren:YWxCOyTUneSD9jtc@cluster0.ak9ns.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+      "value": "mongodb+srv://lojepon819:OrZ1akaKD96ELJVc@cluster0.idicf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     },
     "DATABASE_NAME":{
       "description": "Enter your DATABASE_NAME ",
