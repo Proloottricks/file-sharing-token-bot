@@ -65,12 +65,11 @@
     },
     "AUTO_DELETE_TIME": {
       "description": "Set the time in minute for the automatic deletion of the file. Default is 0, meaning auto-deletion is disabled unless specified.",
-      "value": "20"
+      "value": "1200"
     },
     "AUTO_DELETE_MSG": {
       "description": "The custom message shown to the user before the file is automatically deleted. You can include a countdown with {time}.",
-      "value": "This Media Will Be Deleted In {time} minutes 
-(Due To Copyright Issues")
+      "value": "This file will be automatically deleted in 20 minutes(Due to Copyright Issues).")
     },
     "AUTO_DEL_SUCCESS_MSG": {
       "description": "The custom message shown to the user once the file is successfully deleted.",
