@@ -39,6 +39,7 @@ PORT = os.environ.get("PORT", "8585")
 #Database [https://youtu.be/qFB0cFqiyOM?si=fVicsCcRSmpuja1A]
 DB_URI = os.environ.get("DATABASE_URL", "mongodb+srv://lojepon819:OrZ1akaKD96ELJVc@cluster0.idicf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 
+DB_NAME = os.environ.get("DATABASE_NAME", "Cluster0")
 
 
 SHORTLINK_URL = os.environ.get("SHORTLINK_URL", "http://publicearn.com")
