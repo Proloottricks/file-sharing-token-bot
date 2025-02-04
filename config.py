@@ -16,7 +16,7 @@ API_HASH = os.environ.get("API_HASH", "f61fa0adcd48b6bec464b6866fbd2822")
 CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1001842541528"))
 
 #OWNER ID
-OWNER_ID = int(os.environ.get("OWNER_ID", "6376864232"))
+OWNER_ID = int(os.environ.get("OWNER_ID", "1809208278"))
 
 #Port
 PORT = os.environ.get("PORT", "8585")
@@ -36,9 +36,9 @@ NOTIFICATION = os.environ.get("NOTIFICATION" ,"This file will be automatically d
 GET_INFORM = os.environ.get("GET_INFORM" ,"This file will be automatically deleted in 20 minutes(Due to Copyright Issues).")
 
 BAN = int(os.environ.get("BAN", "1198543450")) #Owner user id - dont chnge 
-OWNER = os.environ.get("OWNER", "hey_ronnie") #Owner username
-OWNER_ID = int(os.environ.get("OWNER_ID", "6376864232")) #Owner user id
-OWNER_USERNAME = os.environ.get('OWNER_USERNAME', 'hey_ronnie')
+OWNER = os.environ.get("OWNER", "BURGITY") #Owner username
+OWNER_ID = int(os.environ.get("OWNER_ID", "1809208278")) #Owner user id
+OWNER_USERNAME = os.environ.get('OWNER_USERNAME', 'BURGITY')
 SUPPORT_GROUP = os.environ.get("SUPPORT_GROUP", "Sanskari_Links69") # WITHOUR @
 CHANNEL = os.environ.get("CHANNEL", "Sanskari_Links1") # WITHOUR @
 
