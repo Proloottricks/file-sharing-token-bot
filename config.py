@@ -78,6 +78,8 @@ PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "True") == "True" el
 #Set true if you want Disable your Channel Posts Share button
 DISABLE_CHANNEL_BUTTON = os.environ.get("DISABLE_CHANNEL_BUTTON", None) == 'True'
 
+BOT_STATS_TEXT = "<b>BOT UPTIME</b>\n {uptime}"
+
 USER_REPLY_TEXT = (
     "Join Posting Channel From https://t.me/+H5JxDV-2fJwxNTY9 For More Links/Files"
 )
