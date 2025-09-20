@@ -20,14 +20,16 @@ from helper_func import subscribed, encode, decode, get_messages, get_shortlink,
 from database.database import add_user, del_user, full_userbase, present_user
 from shortzy import Shortzy
 
-client = MongoClient(DB_URI)
-db = client[DB_NAME]
-phdlust = db["phdlust"]
-phdlust_tasks = db["phdlust_tasks"]
+client = MongoClient(DB_URI)  # Replace with your MongoDB URI
+db = client[DB_NAME]  # Database name
+phdlust = db["phdlust"]  # Collection for users
+phdlust_tasks = db["phdlust_tasks"] 
 
+# Logging configuration
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Function to add a delete task to the database
 async def add_delete_task(chat_id, message_id, delete_at):
     phdlust_tasks.insert_one({
         "chat_id": chat_id,
@@ -35,6 +37,7 @@ async def add_delete_task(chat_id, message_id, delete_at):
         "delete_at": delete_at
     })
 
+# Function to delete the notification after a set delay
 async def delete_notification(client, chat_id, notification_id, delay):
     await asyncio.sleep(delay)
     try:
@@ -53,16 +56,15 @@ async def schedule_auto_delete(client, chat_id, message_id, delay):
             phdlust_tasks.delete_one({"chat_id": chat_id, "message_id": message_id})
 
             notification_text = DELETE_INFORM
-            notification_msg = await client.send_message(
-                chat_id,
-                notification_text,
-                parse_mode="html"
-            )
+            notification_msg = await client.send_message(chat_id, notification_text)
+
             asyncio.create_task(delete_notification(client, chat_id, notification_msg.id, 40))
+
         except Exception as e:
             print(f"Error deleting message {message_id} in chat {chat_id}: {e}")
 
-    asyncio.create_task(delete_message())
+    asyncio.create_task(delete_message())  
+
 
 async def delete_notification_after_delay(client, chat_id, message_id, delay):
     await asyncio.sleep(delay)
@@ -75,7 +77,7 @@ async def delete_notification_after_delay(client, chat_id, message_id, delay):
 @Bot.on_message(filters.command('start') & filters.private & subscribed)
 async def start_command(client: Client, message: Message):
     id = message.from_user.id
-    UBAN = BAN
+    UBAN = BAN  
 
     if id == UBAN:
         await message.reply("You are the U-BAN! Additional actions can be added here.")
@@ -99,12 +101,12 @@ async def start_command(client: Client, message: Message):
             btn = [
                 [InlineKeyboardButton("👉 Click here for Video Links", url="https://t.me/+KgIcsPnXr0NjZTM9")]
             ]
+
             await message.reply(
                 "✅ Your token successfully verified and valid for: 18 Hour\n\n<b>☺️ Now Click on Video Link to Get Video</b>",
                 reply_markup=InlineKeyboardMarkup(btn),
                 protect_content=False,
-                quote=True,
-                parse_mode="html"
+                quote=True
             )
 
         elif len(message.text) > 7 and verify_status['is_verified']:
@@ -147,10 +149,7 @@ async def start_command(client: Client, message: Message):
             messages = await get_messages(client, ids)
             for msg in messages:
                 if bool(CUSTOM_CAPTION) & bool(msg.document):
-                    caption = CUSTOM_CAPTION.format(
-                        previouscaption="" if not msg.caption else msg.caption.html,
-                        filename=msg.document.file_name
-                    )
+                    caption = CUSTOM_CAPTION.format(previouscaption = "" if not msg.caption else msg.caption.html, filename = msg.document.file_name)
                 else:
                     caption = "" if not msg.caption else msg.caption.html
 
@@ -161,34 +160,24 @@ async def start_command(client: Client, message: Message):
 
                 try:
                     messages = await get_messages(client, ids)
-                    phdlust = await msg.copy(
-                        chat_id=message.from_user.id,
-                        caption=caption,
-                        reply_markup=reply_markup,
-                        protect_content=PROTECT_CONTENT
-                    )
+                    phdlust = await msg.copy(chat_id=message.from_user.id, caption=caption, reply_markup=reply_markup , protect_content=PROTECT_CONTENT)
                     phdlusts.append(phdlust)
-                    if AUTO_DELETE:
+                    if AUTO_DELETE == True:
                         asyncio.create_task(schedule_auto_delete(client, phdlust.chat.id, phdlust.id, delay=DELETE_AFTER))
-                    await asyncio.sleep(0.2)
+                    await asyncio.sleep(0.2)      
                 except FloodWait as e:
                     await asyncio.sleep(e.x)
-                    phdlust = await msg.copy(
-                        chat_id=message.from_user.id,
-                        caption=caption,
-                        reply_markup=reply_markup,
-                        protect_content=PROTECT_CONTENT
-                    )
-                    phdlusts.append(phdlust)
+                    phdlust = await msg.copy(chat_id=message.from_user.id, caption=caption, reply_markup=reply_markup , protect_content=PROTECT_CONTENT)
+                    phdlusts.append(phdlust)     
 
-            if GET_AGAIN:
+            if GET_AGAIN == True:
                 get_file_markup = InlineKeyboardMarkup([
                     [InlineKeyboardButton("GET FILE AGAIN", url=f"https://t.me/{client.username}?start={message.text.split()[1]}")]
                 ])
-                await message.reply(GET_INFORM, reply_markup=get_file_markup, parse_mode="html")
+                await message.reply(GET_INFORM, reply_markup=get_file_markup)
 
-            if AUTO_DELETE:
-                delete_notification = await message.reply(NOTIFICATION, parse_mode="html")
+            if AUTO_DELETE == True:
+                delete_notification = await message.reply(NOTIFICATION)
                 asyncio.create_task(delete_notification_after_delay(client, delete_notification.chat.id, delete_notification.id, delay=NOTIFICATION_TIME))
 
         elif verify_status['is_verified']:
@@ -214,7 +203,7 @@ async def start_command(client: Client, message: Message):
             if IS_VERIFY and not verify_status['is_verified']:
                 token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
                 await update_verify_status(id, verify_token=token, link="")
-                link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API, f'https://telegram.dog/{client.username}?start=verify_{token}')
+                link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API,f'https://telegram.dog/{client.username}?start=verify_{token}')
                 btn = [
                     [InlineKeyboardButton("Click here", url=link)],
                     [InlineKeyboardButton('How to use the bot', url=TUT_VID)]
@@ -234,11 +223,13 @@ REPLY_ERROR = """<code>Use this command as a replay to any telegram message with
 @Bot.on_message(filters.command('start') & filters.private)
 async def not_joined(client: Client, message: Message):
     buttons = [
-        [InlineKeyboardButton("Join Channel", url=client.invitelink)]
+        [
+            InlineKeyboardButton("Join Channel", url=client.invitelink)
+        ]
     ]
     try:
         buttons.append(
-            [InlineKeyboardButton("Try Again", url=f"https://t.me/{client.username}?start={message.command[1]}")]
+            [InlineKeyboardButton('Try Again', url=f"https://t.me/{client.username}?start={message.command[1]}")]
         )
     except IndexError:
         pass
@@ -304,6 +295,7 @@ Deleted Accounts: <code>{deleted}</code>
 Unsuccessful: <code>{unsuccessful}</code></b>"""
 
         return await pls_wait.edit(status)
+
     else:
         msg = await message.reply(REPLY_ERROR)
         await asyncio.sleep(8)
