@@ -20,16 +20,14 @@ from helper_func import subscribed, encode, decode, get_messages, get_shortlink,
 from database.database import add_user, del_user, full_userbase, present_user
 from shortzy import Shortzy
 
-client = MongoClient(DB_URI)  # Replace with your MongoDB URI
-db = client[DB_NAME]  # Database name
-phdlust = db["phdlust"]  # Collection for users
+client = MongoClient(DB_URI)
+db = client[DB_NAME]
+phdlust = db["phdlust"]
 phdlust_tasks = db["phdlust_tasks"]
 
-# Logging configuration
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Function to add a delete task to the database
 async def add_delete_task(chat_id, message_id, delete_at):
     phdlust_tasks.insert_one({
         "chat_id": chat_id,
@@ -37,7 +35,6 @@ async def add_delete_task(chat_id, message_id, delete_at):
         "delete_at": delete_at
     })
 
-# Function to delete the notification after a set delay
 async def delete_notification(client, chat_id, notification_id, delay):
     await asyncio.sleep(delay)
     try:
@@ -54,8 +51,13 @@ async def schedule_auto_delete(client, chat_id, message_id, delay):
         try:
             await client.delete_messages(chat_id=chat_id, message_ids=message_id)
             phdlust_tasks.delete_one({"chat_id": chat_id, "message_id": message_id})
+
             notification_text = DELETE_INFORM
-            notification_msg = await client.send_message(chat_id, notification_text, parse_mode="html")
+            notification_msg = await client.send_message(
+                chat_id,
+                notification_text,
+                parse_mode="html"
+            )
             asyncio.create_task(delete_notification(client, chat_id, notification_msg.id, 40))
         except Exception as e:
             print(f"Error deleting message {message_id} in chat {chat_id}: {e}")
@@ -70,7 +72,6 @@ async def delete_notification_after_delay(client, chat_id, message_id, delay):
         print(f"Error deleting notification {message_id} in chat {chat_id}: {e}")
 
 
-# ==================== START COMMAND ==================== #
 @Bot.on_message(filters.command('start') & filters.private & subscribed)
 async def start_command(client: Client, message: Message):
     id = message.from_user.id
@@ -94,13 +95,16 @@ async def start_command(client: Client, message: Message):
             if verify_status['verify_token'] != token:
                 return await message.reply("Your token is invalid or Expired. Try again by clicking /start")
             await update_verify_status(id, is_verified=True, verified_time=time.time())
+
             btn = [
                 [InlineKeyboardButton("👉 Click here for Video Links", url="https://t.me/+KgIcsPnXr0NjZTM9")]
             ]
             await message.reply(
                 "✅ Your token successfully verified and valid for: 18 Hour\n\n<b>☺️ Now Click on Video Link to Get Video</b>",
-                parse_mode="html",
-                reply_markup=InlineKeyboardMarkup(btn)
+                reply_markup=InlineKeyboardMarkup(btn),
+                protect_content=False,
+                quote=True,
+                parse_mode="html"
             )
 
         elif len(message.text) > 7 and verify_status['is_verified']:
@@ -117,7 +121,7 @@ async def start_command(client: Client, message: Message):
                 except:
                     return
                 if start <= end:
-                    ids = range(start, end + 1)
+                    ids = range(start, end+1)
                 else:
                     ids = []
                     i = start
@@ -131,7 +135,6 @@ async def start_command(client: Client, message: Message):
                     ids = [int(int(argument[1]) / abs(client.db_channel.id))]
                 except:
                     return
-
             temp_msg = await message.reply("Please wait...")
             try:
                 messages = await get_messages(client, ids)
@@ -157,6 +160,7 @@ async def start_command(client: Client, message: Message):
                     reply_markup = None
 
                 try:
+                    messages = await get_messages(client, ids)
                     phdlust = await msg.copy(
                         chat_id=message.from_user.id,
                         caption=caption,
@@ -204,46 +208,38 @@ async def start_command(client: Client, message: Message):
                 disable_web_page_preview=True,
                 quote=True
             )
+
         else:
             verify_status = await get_verify_status(id)
             if IS_VERIFY and not verify_status['is_verified']:
                 token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
                 await update_verify_status(id, verify_token=token, link="")
-                link = await get_shortlink(
-                    SHORTLINK_URL,
-                    SHORTLINK_API,
-                    f'https://telegram.dog/{client.username}?start=verify_{token}'
-                )
+                link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API, f'https://telegram.dog/{client.username}?start=verify_{token}')
                 btn = [
                     [InlineKeyboardButton("Click here", url=link)],
                     [InlineKeyboardButton('How to use the bot', url=TUT_VID)]
                 ]
                 await message.reply(
-                    f"Your Ads token is expired, refresh your token and try again.\n\n"
-                    f"Token Timeout: {get_exp_time(VERIFY_EXPIRE)}\n\n"
-                    f"What is the token?\n\n"
-                    f"This is an ads token. If you pass 1 ad, you can use the bot for 18 Hour after passing the ad.",
+                    f"Your Ads token is expired, refresh your token and try again.\n\nToken Timeout: {get_exp_time(VERIFY_EXPIRE)}\n\nWhat is the token?\n\nThis is an ads token. If you pass 1 ad, you can use the bot for 18 Hour after passing the ad.",
                     reply_markup=InlineKeyboardMarkup(btn),
                     protect_content=False,
                     quote=True
                 )
 
 
-# ==================== OTHER COMMANDS ==================== #
+WAIT_MSG = """"<b>Processing ...</b>"""
+REPLY_ERROR = """<code>Use this command as a replay to any telegram message with out any spaces.</code>"""
 
-WAIT_MSG = "<b>Processing ...</b>"
-REPLY_ERROR = "<code>Use this command as a reply to any telegram message without spaces.</code>"
 
 @Bot.on_message(filters.command('start') & filters.private)
 async def not_joined(client: Client, message: Message):
-    buttons = [[InlineKeyboardButton("Join Channel", url=client.invitelink)]]
+    buttons = [
+        [InlineKeyboardButton("Join Channel", url=client.invitelink)]
+    ]
     try:
-        buttons.append([
-            InlineKeyboardButton(
-                text='Try Again',
-                url=f"https://t.me/{client.username}?start={message.command[1]}"
-            )
-        ])
+        buttons.append(
+            [InlineKeyboardButton("Try Again", url=f"https://t.me/{client.username}?start={message.command[1]}")]
+        )
     except IndexError:
         pass
 
@@ -260,11 +256,13 @@ async def not_joined(client: Client, message: Message):
         disable_web_page_preview=True
     )
 
+
 @Bot.on_message(filters.command('users') & filters.private & filters.user(ADMINS))
 async def get_users(client: Bot, message: Message):
-    msg = await client.send_message(chat_id=message.chat.id, text=WAIT_MSG, parse_mode="html")
+    msg = await client.send_message(chat_id=message.chat.id, text=WAIT_MSG)
     users = await full_userbase()
     await msg.edit(f"{len(users)} users are using this bot")
+
 
 @Bot.on_message(filters.private & filters.command('broadcast') & filters.user(ADMINS))
 async def send_text(client: Bot, message: Message):
@@ -305,7 +303,7 @@ Blocked Users: <code>{blocked}</code>
 Deleted Accounts: <code>{deleted}</code>
 Unsuccessful: <code>{unsuccessful}</code></b>"""
 
-        return await pls_wait.edit(status, parse_mode="html")
+        return await pls_wait.edit(status)
     else:
         msg = await message.reply(REPLY_ERROR)
         await asyncio.sleep(8)
