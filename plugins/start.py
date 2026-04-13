@@ -99,7 +99,7 @@ async def start_command(client: Client, message: Message):
             await update_verify_status(id, is_verified=True, verified_time=time.time())
 
             btn = [
-                [InlineKeyboardButton("👉 Click here for Video Links", url="https://t.me/+sMwuj9ladUhhYTJl")]
+                [InlineKeyboardButton("👉 Click here for Video Links", url="https://t.me/+eFlQ5EUadj0xM2Ex")]
             ]
 
             await message.reply(
